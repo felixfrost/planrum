@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f4ef">
+  <meta name="description" content="Rita och anpassa en skalenlig planlösning. Börja med ett LB-Hus-inspirerat utkast eller en egen huskropp.">
+  <title>Planrum – forma ditt framtida hem</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="brand-mark" aria-hidden="true">P<span></span></span><div><strong>Planrum</strong><small>PLANERA MED PRECISION</small></div></div>
+    <div class="top-center"><span class="live-dot"></span> Din planlösning sparas automatiskt i den här webbläsaren</div>
+    <div class="top-actions"><button id="undo" class="icon-btn" title="Ångra (Ctrl/Cmd+Z)" aria-label="Ångra">↶</button><button id="redo" class="icon-btn" title="Gör om (Ctrl/Cmd+Shift+Z)" aria-label="Gör om">↷</button><button id="share" class="soft-btn">Dela projekt</button><button id="export" class="primary-btn">Exportera <span>↗</span></button></div>
+  </header>
+
+  <main class="app-shell">
+    <aside class="sidebar left-panel" id="leftPanel">
+      <div class="panel-heading"><div><span class="eyebrow">DITT PROJEKT</span><h2>Börja skapa</h2></div><span class="heading-icon">⌂</span></div>
+      <div class="panel-scroll">
+        <div class="field-label">Projektnamn</div><input id="projectName" class="text-input" type="text" value="Mitt framtida hem" maxlength="60" aria-label="Projektnamn">
+        <div class="section-label"><span>VÄLJ EN STARTPUNKT</span><span>01 / 03</span></div>
+        <div class="manufacturer"><span class="manufacturer-logo">LB</span><div><strong>LB-Hus</strong><small>Modeller för inspiration</small></div><span class="chevron">⌄</span></div>
+        <div class="model-list" id="modelList"></div>
+        <button id="customModel" class="custom-card"><span class="custom-plus">＋</span><span><strong>Egen huskropp</strong><small>Börja med dina egna mått</small></span><span class="arrow">↗</span></button>
+        <div class="notice"><span>ⓘ</span><p>Modellernas startskisser är fristående exempel. Bekräfta alltid mått och möjligheter mot LB-Hus originalritning och säljare.</p></div>
+      </div>
+    </aside>
+
+    <section class="workspace" aria-label="Rityta">
+      <div class="workspace-header"><div><span class="eyebrow">RITBORD / <span id="modelBreadcrumb">LB OPTIMAL 117</span></span><div class="workspace-title"><h1 id="canvasTitle">Mitt framtida hem</h1><span id="statusPill" class="status-pill">Utkast</span></div></div><div class="canvas-meta"><span id="sizeMeta">12,0 × 11,0 m</span><span>•</span><span id="areaMeta">132 m² huskropp</span></div></div>
+      <div class="mobile-tabs"><button class="mobile-tab active" data-panel="canvas">Ritning</button><button class="mobile-tab" data-panel="left">Modeller</button><button class="mobile-tab" data-panel="right">Verktyg</button></div>
+      <div class="toolbar" role="toolbar" aria-label="Ritverktyg">
+        <button class="tool active" data-tool="select" title="Markera och flytta"><span class="tool-icon">↖</span> Markera</button>
+        <button class="tool" data-tool="room" title="Rita rum"><span class="tool-icon">▣</span> Rum</button>
+        <button class="tool" data-tool="wall" title="Rita innervägg"><span class="tool-icon">╱</span> Vägg</button>
+        <button class="tool" data-tool="door" title="Placera dörr"><span class="tool-icon">◿</span> Dörr</button>
+        <button class="tool" data-tool="window" title="Placera fönster"><span class="tool-icon">▭</span> Fönster</button>
+        <button class="tool" data-tool="furniture" title="Placera möbel"><span class="tool-icon">▤</span> Möbler</button>
+        <div class="toolbar-spacer"></div><label class="snap-label"><input type="checkbox" id="snap" checked> Fäst mot rutnät</label>
+      </div>
+      <div class="canvas-wrap"><div class="canvas-paper"><div class="canvas-topline"><span><span class="north">N ↑</span> PLAN 01 · <span id="planName">ENTRÉPLAN</span></span><span>SKISS • MÅTT I METER</span></div><svg id="plan" role="img" aria-label="Redigerbar planritning" xmlns="http://www.w3.org/2000/svg"></svg><div class="canvas-bottomline"><span id="scaleLegend">Rutnät 0,5 m</span><span>Skiss, ej bygghandling</span></div></div></div>
+      <div class="workspace-footer"><span><b class="green-dot"></b> <span id="saveStatus">Sparat lokalt</span></span><span class="footer-tip">Tips: Dra i ett rum för att flytta. Dra i hörnet för att ändra storlek.</span><span id="zoomReadout">100 %</span></div>
+    </section>
+
+    <aside class="sidebar right-panel" id="rightPanel"><div class="panel-heading"><div><span class="eyebrow">UTFORMA DITT HEM</span><h2>Verktyg & detaljer</h2></div><span class="heading-icon">⚙</span></div><div class="panel-scroll">
+      <div class="section-label"><span>HUSKROPP</span><span>01</span></div>
+      <div class="dimension-row"><label>BREDD <span>meter</span><input id="houseWidth" type="number" min="4" max="30" step="0.25"></label><span class="multiply">×</span><label>DJUP <span>meter</span><input id="houseHeight" type="number" min="4" max="30" step="0.25"></label></div>
+      <p class="field-hint">Ändra måtten för en egen huskropp. Föremål som hamnar utanför behöver flyttas.</p>
+      <div class="section-label"><span>LÄGG TILL RUM</span><span>02</span></div><div class="room-grid" id="roomGrid"></div>
+      <div class="section-label"><span>VALT OBJEKT</span><span>03</span></div><div id="inspector" class="inspector"></div>
+      <div class="section-label"><span>PROJEKT</span><span>04</span></div><div class="project-actions"><button id="mirror" class="line-btn">⇄ <span>Spegelvänd allt</span></button><button id="newProject" class="line-btn">＋ <span>Nytt tomt projekt</span></button><button id="import" class="line-btn">⇧ <span>Importera projektfil</span></button></div><input id="importFile" type="file" accept="application/json,.json" hidden>
+      <div class="source-note">Modelluppgifter från <a href="https://www.lbhus.se/vara-hus/" target="_blank" rel="noopener">LB-Hus</a>. Ritverktyget är fristående och inte anslutet till LB-Hus.</div>
+    </div></aside>
+  </main>
+
+  <div id="modal" class="modal-backdrop" hidden><div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><button class="modal-close" id="modalClose" aria-label="Stäng">×</button><div id="modalContent"></div></div></div>
+  <div id="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>
