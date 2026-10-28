@@ -4,7 +4,7 @@ Ett webbaserat ritverktyg för tidiga planlösningsskisser. Rita huskropp, rum, 
 
 ## Starta lokalt
 
-Ingen byggprocess krävs. Kör `python3 -m http.server 8080` i projektmappen och öppna `http://localhost:8080`.
+Ingen byggprocess krävs. Kör `python3 -m http.server 8080 --directory public` i projektmappen och öppna `http://localhost:8080`.
 
 ## Publicera
 
