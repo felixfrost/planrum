@@ -12,8 +12,8 @@
   const roomTypeMap = Object.fromEntries(roomTypes.map(r=>[r[0],r]));
   const templates = [
     {id:'optimal90',label:'LB Optimal 90',area:'89,6 m² BOA',source:'https://www.lbhus.se/vara-hus/lb-optimal-90/',w:10.25,h:10,rooms:[['Sovrum',.35,.35,3.2,3.2],['Badrum',3.6,.35,2.5,2.3],['Hall',6.15,.35,3.7,2.3],['Kök',.35,3.65,3.7,2.9],['Vardagsrum',4.1,2.8,5.8,5.1],['Sovrum',.35,6.6,3.2,3.0],['Tvättstuga',3.6,8.0,2.8,1.6]]},
-    {id:'optimal117',label:'LB Optimal 117',area:'116,6 m² BOA',source:'https://www.lbhus.se/vara-hus/lb-optimal-117/',w:11.95,h:11,rooms:[['Sovrum',.35,.35,3.2,3.25],['Sovrum',3.6,.35,3.2,3.25],['Badrum',6.85,.35,2.1,2.45],['Tvättstuga',9.0,.35,2.6,2.45],['Hall',6.85,2.85,4.75,2.2],['Kök',.35,3.7,4.0,3.2],['Vardagsrum',4.4,5.15,7.2,5.5],['Sovrum',.35,7.0,3.2,3.65],['Klädkammare',3.6,7.0,1.6,1.8]]},
-    {id:'optimal126',label:'LB Optimal 126',area:'126 m² BOA',source:'https://www.lbhus.se/vara-hus/lb-optimal-126/',w:12.95,h:11,rooms:[['Sovrum',.35,.35,3.3,3.1],['Sovrum',3.7,.35,3.2,3.1],['Badrum',7.0,.35,2.4,2.35],['Tvättstuga',9.45,.35,3.15,2.35],['Hall',7,2.75,5.6,2.2],['Kök',.35,3.55,4.1,3.3],['Vardagsrum',4.55,5.05,8.05,5.55],['Sovrum',.35,6.95,3.25,3.7],['Kontor',3.65,7.05,2.25,2.6]]}
+    {id:'optimal117',label:'LB Optimal 117',area:'116,6 m² BOA',source:'https://www.lbhus.se/vara-hus/lb-optimal-117/',w:11.95,h:11,rooms:[['Sovrum',.35,.35,3.2,3.25],['Sovrum',3.6,.35,3.2,3.25],['Badrum',6.85,.35,2.1,2.45],['Tvättstuga',9.0,.35,2.6,2.45],['Hall',6.85,2.85,4.75,2.2],['Kök',.35,3.7,4.0,3.2],['Vardagsrum',5.3,5.15,6.3,5.5],['Sovrum',.35,7.0,3.2,3.65],['Klädkammare',3.6,7.0,1.6,1.8]]},
+    {id:'optimal126',label:'LB Optimal 126',area:'126 m² BOA',source:'https://www.lbhus.se/vara-hus/lb-optimal-126/',w:12.95,h:11,rooms:[['Sovrum',.35,.35,3.3,3.1],['Sovrum',3.7,.35,3.2,3.1],['Badrum',7.0,.35,2.4,2.35],['Tvättstuga',9.45,.35,3.15,2.35],['Hall',7,2.75,5.6,2.2],['Kök',.35,3.55,4.1,3.3],['Vardagsrum',6.0,5.05,6.6,5.55],['Sovrum',.35,6.95,3.25,3.7],['Kontor',3.65,7.05,2.25,2.6]]}
   ];
   const fmt = n => Number(n).toLocaleString('sv-SE',{minimumFractionDigits:1,maximumFractionDigits:2});
   const esc = s => String(s ?? '').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -24,7 +24,7 @@
   const makeTemplate = t => ({version:1,name:'Mitt framtida hem',model:t.id,house:{w:t.w,h:t.h},objects:t.rooms.map(([name,x,y,w,h])=>({id:uid(),type:'room',name,x,y,w,h,color:roomTypeMap[name]?.[2]||'#edf1ec'}))});
   const valid = p => p && p.version===1 && p.house && Number.isFinite(+p.house.w) && Number.isFinite(+p.house.h) && Array.isArray(p.objects);
   let project;
-  try { const hash = new URLSearchParams(location.hash.slice(1)).get('plan'); const loaded = hash ? JSON.parse(decodeURIComponent(hash)) : JSON.parse(localStorage.getItem(STORAGE)); project = valid(loaded) ? loaded : makeTemplate(templates[1]); } catch { project=makeTemplate(templates[1]); }
+  try { const hash = new URLSearchParams(location.hash.slice(1)).get('plan'); const loaded = hash ? JSON.parse(hash) : JSON.parse(localStorage.getItem(STORAGE)); project = valid(loaded) ? loaded : makeTemplate(templates[1]); } catch { project=makeTemplate(templates[1]); }
   let selected=null,tool='select',roomName='Sovrum',draft=null,drag=null,history=[],future=[],toastTimer;
   const current = () => project.objects.find(o=>o.id===selected);
   function checkpoint(){ history.push(JSON.stringify(project)); if(history.length>60) history.shift(); future=[]; updateUndo(); }
